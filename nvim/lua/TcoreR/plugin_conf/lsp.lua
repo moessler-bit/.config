@@ -5,7 +5,6 @@ lsp.preset('recommended')
 lsp.ensure_installed({
 	'phpactor',
 	'rust_analyzer',
-	'clangd',
 	'pylsp'
 })
 
