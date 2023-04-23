@@ -27,3 +27,12 @@ vim.opt.colorcolumn = "80"
 vim.g.mapleader= " "
 
 vim.opt.mouse=""
+
+
+vim.cmd([[
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+]])
+
+vim.o.termguicolors = true
+-- vim.cmd('highlight Normal ctermbg=NONE guibg=NONE')
+-- vim.cmd('highlight Visual ctermbg=black guibg=#a673b7')

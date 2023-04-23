@@ -45,7 +45,8 @@ return require('packer').startup(function(use)
     }
 }
 
---use('tpope/vim-fugitive') -- git helper
+use('tpope/vim-fugitive') -- git helper
+use('airblade/vim-gitgutter') -- git helper
 --
 --
 if packer_bootstrap then
