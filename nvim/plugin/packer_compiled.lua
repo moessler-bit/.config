@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/luky/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  neotex = {
+    loaded = true,
+    path = "/home/luky/.local/share/nvim/site/pack/packer/start/neotex",
+    url = "https://github.com/donRaphaco/neotex"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/luky/.local/share/nvim/site/pack/packer/start/nvim-cmp",
