@@ -1,55 +1,64 @@
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-        vim.cmd [[packadd packer.nvim]]
-        return true
-    end
-    return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+local plugins = {
 
-return require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-    -- My plugins here
-    --
-    use({ 'rose-pine/neovim', as = 'rose-pine' }) -- color scheme
-    use {'nvim-telescope/telescope.nvim', tag = '0.1.1',requires = {{'nvim-lua/plenary.nvim'}}} -- find files
-    use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'}) -- highlight code
-    use('nvim-treesitter/playground')
-    use('theprimeagen/harpoon') -- switch files quick
-    use('mbbill/undotree') -- undo branches and more
-    use("terrortylor/nvim-comment") -- nvim-comment
+    -- https://github.com/nvim-treesitter/nvim-treesitter
+    -- enable auto install tipp: :TSConfigInfo
+    'nvim-treesitter/nvim-treesitter',
+    -- https://github.com/tpope/vim-commentary
+    'tpope/vim-commentary',
+    'mbbill/undotree',
 
+    -- navigation
+    'theprimeagen/harpoon',
+    -- 'nvim-tree/nvim-tree.lua',
 
-    use {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v2.x',
-        requires = {
-            -- LSP Support
-            {'neovim/nvim-lspconfig'},             -- Required
-            {                                      -- Optional
-            'williamboman/mason.nvim',
-            run = function()
-                pcall(vim.cmd, 'MasonUpdate')
-            end,
-        },
-        {'williamboman/mason-lspconfig.nvim'}, -- Optional
+    -- theme
+    'rose-pine/neovim',
+    'nvim-lualine/lualine.nvim',
 
-        -- Autocompletion
-        {'hrsh7th/nvim-cmp'},     -- Required
-        {'hrsh7th/cmp-nvim-lsp'}, -- Required
-        {'L3MON4D3/LuaSnip'},     -- Required
+    -- git
+    -- https://github.com/tpope/vim-fugitive
+    'tpope/vim-fugitive',
+
+    -- completion
+
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+
+    -- 
+
+    'neovim/nvim-lspconfig',
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp', -- complete language servers
+    'hrsh7th/cmp-buffer', -- complete words from same buffer
+    'hrsh7th/cmp-path', -- complete file paths
+    'hrsh7th/cmp-nvim-lua', -- complete lua code
+    'hrsh7th/cmp-cmdline', -- complete lua code
+
+    'onsails/lspkind.nvim',
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
+
+    -- code styling
+    {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.0',
+        dependencies = { {'nvim-lua/plenary.nvim'} }
     }
 }
 
-use('tpope/vim-fugitive') -- git helper
-use('airblade/vim-gitgutter') -- git helper
---
---
-if packer_bootstrap then
-    require('packer').sync()
-end
-end)
+local opts = {}
+
+require("lazy").setup(plugins, opts)

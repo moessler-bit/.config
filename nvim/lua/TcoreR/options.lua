@@ -26,13 +26,35 @@ vim.opt.colorcolumn = "80"
 
 vim.g.mapleader= " "
 
-vim.opt.mouse=""
+-- disable scroll
+local function disable_mouse_scroll()
+  local scroll_events = {
+    "<ScrollWheelUp>",
+    "<S-ScrollWheelUp>",
+    "<C-ScrollWheelUp>",
+    "<ScrollWheelDown>",
+    "<S-ScrollWheelDown>",
+    "<C-ScrollWheelDown>",
+  }
 
+  for _, event in ipairs(scroll_events) do
+    vim.api.nvim_set_keymap("n", event, "<nop>", {noremap = true, silent = true})
+    vim.api.nvim_set_keymap("i", event, "<nop>", {noremap = true, silent = true})
+    vim.api.nvim_set_keymap("v", event, "<nop>", {noremap = true, silent = true})
+  end
+end
 
-vim.cmd([[
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-]])
+disable_mouse_scroll()
 
-vim.o.termguicolors = true
--- vim.cmd('highlight Normal ctermbg=NONE guibg=NONE')
--- vim.cmd('highlight Visual ctermbg=black guibg=#a673b7')
+local function disable_mouse_clicks()
+  local modes = {'n', 'v', 'i'}
+  local buttons = {'<LeftMouse>', '<MiddleMouse>', '<RightMouse>'}
+
+  for _, mode in ipairs(modes) do
+    for _, button in ipairs(buttons) do
+      vim.api.nvim_set_keymap(mode, button, '<nop>', {noremap = true})
+    end
+  end
+end
+
+disable_mouse_clicks()
