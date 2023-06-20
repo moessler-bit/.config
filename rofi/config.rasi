@@ -1,15 +1,6 @@
-/**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- * 
- * Rofi Theme File
- * Rofi Version: 1.7.3
- **/
-
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun";
+	modi:                       "drun,calc,ssh";
     show-icons:                 true;
     display-drun:               "drun :";
     display-run:                "";
@@ -21,6 +12,7 @@ configuration {
 
 /*****----- Global Properties -----*****/
 @import "~/.config/rofi/rose-pine.rasi"
+
 * {
     font: "JetBrains Mono Medium 10";
 }
