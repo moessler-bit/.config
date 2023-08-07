@@ -1,14 +1,9 @@
-require('mason').setup({
-    ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
-})
+-- -- Mason setup
+-- require("mason").setup()
+-- require("mason-lspconfig").setup({
+--     ensure_installed = {
+--         "lua_ls",
+--         -- Add other language servers here
+--     },
+-- })
 
-require('mason-lspconfig').setup({
-    -- A list of servers to automatically install if they're not already installed
-    -- ensure_installed = { 'pylsp', 'gopls', 'lua_ls', 'rust_analyzer' },
-})

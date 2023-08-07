@@ -32,33 +32,43 @@ local plugins = {
     -- https://github.com/tpope/vim-fugitive
     'tpope/vim-fugitive',
 
-    -- completion
+    {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    dependencies = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {
+        'williamboman/mason.nvim',
+        build = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      {'williamboman/mason-lspconfig.nvim'},
 
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-
-    -- 
-
-    'neovim/nvim-lspconfig',
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp', -- complete language servers
-    'hrsh7th/cmp-buffer', -- complete words from same buffer
-    'hrsh7th/cmp-path', -- complete file paths
-    'hrsh7th/cmp-nvim-lua', -- complete lua code
-    'hrsh7th/cmp-cmdline', -- complete lua code
-
-    'onsails/lspkind.nvim',
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'L3MON4D3/LuaSnip'},
+    }
+  },
 
     -- code styling
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.0',
-        dependencies = { {'nvim-lua/plenary.nvim'} }
+        dependencies = {
+            {'nvim-lua/plenary.nvim'}
+        }
     }
 }
 
 local opts = {}
 
 require("lazy").setup(plugins, opts)
+-- export
+local lsp = require('lsp-zero').preset({})
+
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)

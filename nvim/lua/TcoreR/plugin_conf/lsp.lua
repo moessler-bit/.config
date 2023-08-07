@@ -1,15 +1,16 @@
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+local lsp = require('lsp-zero').preset({})
 
--- Set up nvim-cmp.
-local cmp = require'cmp'
+lsp.on_attach(function(client, bufnr)
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.setup()
+
+-- You need to setup `cmp` after lsp-zero
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+
 cmp.setup({
-    snippet = {
-        -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        end,
-    },
     mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -21,29 +22,4 @@ cmp.setup({
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         }),
-    },
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'nvim_lua' },
-        { name = 'luasnip' },
-    },
-    formatting = {
-        format = require('lspkind').cmp_format({with_text = true, maxwidth = 50})
-    },
-    experimental = {
-        native_menu = false,
-        ghost_text = true,
-    },
-})
-
--- Set up lspconfig.
-local lspconfig = require('lspconfig')
-local servers = { "html", "cssls", "clangd", "phpactor"}
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+}})
