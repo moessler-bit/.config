@@ -1,0 +1,8 @@
+require('TcoreR.plugin_conf.treesitter')
+require('TcoreR.plugin_conf.harpoon')
+require('TcoreR.plugin_conf.rose-pine')
+require('TcoreR.plugin_conf.undotree')
+require('TcoreR.plugin_conf.lualine')
+require('TcoreR.plugin_conf.mason')
+require('TcoreR.plugin_conf.lsp')
+require('TcoreR.plugin_conf.telescope')
