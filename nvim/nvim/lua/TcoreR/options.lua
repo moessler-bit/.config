@@ -2,7 +2,6 @@ vim.opt.encoding="utf-8"
 vim.opt.nu = true
 vim.opt.rnu = true
 
-
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -59,3 +58,6 @@ local function disable_mouse_clicks()
 end
 
 disable_mouse_clicks()
+
+-- g* | g# to search word
+-- :noh to remove highlight
