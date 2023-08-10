@@ -1,7 +1,3 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 function fish_greeting
     # Greeting messages
     set powered_msgs \
@@ -21,13 +17,18 @@ function fish_greeting
 end
 
 alias c=clear
-alias pac='sudo pacman'
-
-alias exo='cd ~/Code/laravel/exotime_v2' 
 alias nv=nvim
-
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+ 
+export PATH="/home/$USER/.config/composer/vendor/bin:$PATH"
+export PATH="$PATH:/home/lukas/.local/bin"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-set TERM xterm-256color
+if tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX"
+    tmux a
+else if not tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX";
+    tmux
+end
+
 
 starship init fish | source
