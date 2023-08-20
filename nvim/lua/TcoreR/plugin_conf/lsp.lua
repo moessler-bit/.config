@@ -1,45 +1,66 @@
--- local lsp = require('lsp-zero').preset({})
-
--- lsp.on_attach(function(client, bufnr)
---   lsp.default_keymaps({buffer = bufnr})
--- end)
-
--- lsp.setup()
-
--- -- You need to setup `cmp` after lsp-zero
--- local cmp = require('cmp')
--- local cmp_action = require('lsp-zero').cmp_action()
-
--- cmp.setup({
---     mapping = {
---         ['<C-p>'] = cmp.mapping.select_prev_item(),
---         ['<C-n>'] = cmp.mapping.select_next_item(),
---         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
---         ['<C-d>'] = cmp.mapping.scroll_docs(4),
---         ['<C-Space>'] = cmp.mapping.complete(),
---         ['<C-e>'] = cmp.mapping.close(),
---         ['<CR>'] = cmp.mapping.confirm({
---             behavior = cmp.ConfirmBehavior.Replace,
---             select = true,
---         }),
--- }})
 local lsp = require('lsp-zero').preset({})
-local cmp = require('cmp')
 
 lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
-
-  vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = true})
-  vim.keymap.set('i', '<C-p>', cmp.mapping.select_prev_item())
-  vim.keymap.set('i', '<C-n>', cmp.mapping.select_next_item())
-  vim.keymap.set('i', '<C-u>', cmp.mapping.scroll_docs(-4))
-  vim.keymap.set('i', '<C-d>', cmp.mapping.scroll_docs(4))
-  vim.keymap.set('i', '<C-Space>', cmp.mapping.complete())
-  vim.keymap.set('i', '<C-e>', cmp.mapping.close())
-  vim.keymap.set('i', '<CR>', cmp.mapping.confirm({
-      -- behaviour = cmp.ConfirmBehavior.Replace,
-      select = true,
-  }))
+    lsp.default_keymaps({buffer = bufnr})
+    vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = true})
 end)
 
+lsp.set_sign_icons({
+    error = '✘',
+    warn = '▲',
+    hint = '⚑',
+    info = '»'
+})
+
+local lsp = require('lsp-zero').preset({})
+
+lsp.on_attach(function(client, bufnr)
+    lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.ensure_installed({
+    'lua_ls',
+    'rust_analyzer',
+})
+
 lsp.setup()
+
+require('mason').setup({
+    ui = {
+        border = 'rounded'
+    }
+})
+
+local cmp = require('cmp')
+
+cmp.setup({
+    sources = {
+        {name = 'nvim_lsp'},
+        {name = 'luasnip'},
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    mapping = {
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({select = true}),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+    },
+    formatting = {
+        fields = {'abbr', 'kind', 'menu'},
+        format = require('lspkind').cmp_format({
+            mode = 'symbol_text', -- show only symbol annotations
+            -- maxwidth = 70, -- prevent the popup from showing more than provided characters
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+        })
+    },
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
+})
