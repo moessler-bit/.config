@@ -30,5 +30,7 @@ else if not tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX";
     tmux
 end
 
+set -Ux VISUAL nvim;
+set -Ux EDITOR nvim;
 
 starship init fish | source
