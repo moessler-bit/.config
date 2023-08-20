@@ -24,13 +24,13 @@ export PATH="/home/$USER/.config/composer/vendor/bin:$PATH"
 export PATH="$PATH:/home/lukas/.local/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
+
 if tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX"
     tmux a
 else if not tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX";
     tmux
 end
-
-set -Ux VISUAL nvim;
-set -Ux EDITOR nvim;
 
 starship init fish | source
