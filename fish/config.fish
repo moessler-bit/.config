@@ -27,10 +27,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
 
-if tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX"
-    tmux a
-else if not tmux ls >/dev/null 2>/dev/null; and test -z "$TMUX";
-    tmux
-end
+bash ~/.scripts/tmux/autostart
 
 starship init fish | source
