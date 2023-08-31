@@ -61,7 +61,8 @@ local plugins = {
             {'nvim-lua/plenary.nvim'},
             { "nvim-telescope/telescope-live-grep-args.nvim"},
         }
-    }
+    },
+    'nvim-pack/nvim-spectre',
 }
 
 local opts = {}
