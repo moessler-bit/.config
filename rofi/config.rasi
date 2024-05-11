@@ -1,6 +1,7 @@
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,calc,ssh";
+	//modi:                       "drun,calc,ssh";
+	modi:                       "drun,ssh";
     show-icons:                 true;
     display-drun:               "drun :";
     display-run:                "";
